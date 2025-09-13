@@ -1,0 +1,48 @@
+{
+  "name": "el-patio-monorepo",
+  "version": "1.0.0",
+  "description": "Monorepo para El Patio - Bot Telegram, Backend y Miniapps",
+  "private": true,
+  "workspaces": [
+    "bot-telegram",
+    "elpatio-backend",
+    "elpatio-miniapps",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "./scripts/dev.sh",
+    "prod": "./scripts/prod.sh",
+    "setup": "./scripts/setup.sh",
+    "setup:env": "scripts\\setup-env.bat",
+    "install:deps": "scripts\\install-deps.bat",
+    "migrate:repos": "scripts\\migrate-repos.bat",
+    "docker:dev": "scripts\\docker-dev.bat",
+    "docker:prod": "./scripts/docker-prod.sh",
+    "stop": "docker-compose down",
+    "logs": "docker-compose logs -f",
+    "logs:bot": "docker-compose logs -f bot-telegram",
+    "logs:backend": "docker-compose logs -f backend",
+    "logs:miniapps": "docker-compose logs -f miniapps",
+    "shell:bot": "docker-compose exec bot-telegram sh",
+    "shell:backend": "docker-compose exec backend sh",
+    "shell:miniapps": "docker-compose exec miniapps sh",
+    "db:shell": "docker-compose exec mongodb mongosh",
+    "redis:shell": "docker-compose exec redis redis-cli",
+    "build": "docker-compose build",
+    "up": "docker-compose up -d",
+    "down": "docker-compose down",
+    "restart": "docker-compose restart",
+    "clean": "docker-compose down -v --remove-orphans",
+    "install:all": "npm install --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "lerna": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

@@ -1,0 +1,117 @@
+version: "3.8"
+
+services:
+  # Base de datos MongoDB
+  mongodb:
+    image: mongo:4.4
+    container_name: elpatio-mongodb-prod
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: elpatio
+    volumes:
+      - mongodb_data:/data/db
+      - ./services/mongodb/init:/docker-entrypoint-initdb.d
+    networks:
+      - elpatio-network
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+  # Cache Redis
+  redis:
+    image: redis:7.2-alpine
+    container_name: elpatio-redis-prod
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - elpatio-network
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+
+  # Bot de Telegram
+  bot-telegram:
+    build:
+      context: ../../
+      dockerfile: docker/services/bot-telegram/Dockerfile
+    container_name: elpatio-bot-prod
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+      - redis
+    environment:
+      - NODE_ENV=production
+    networks:
+      - elpatio-network
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+
+  # Backend API
+  backend:
+    build:
+      context: ../../
+      dockerfile: docker/services/backend/Dockerfile
+    container_name: elpatio-backend-prod
+    restart: unless-stopped
+    ports:
+      - "3001:5000"
+    depends_on:
+      - mongodb
+      - redis
+    environment:
+      - NODE_ENV=production
+    networks:
+      - elpatio-network
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+  # Mini Apps
+  miniapps:
+    build:
+      context: ../../
+      dockerfile: docker/services/miniapps/Dockerfile
+    container_name: elpatio-miniapps-prod
+    restart: unless-stopped
+    ports:
+      - "3002:3000"
+    depends_on:
+      - backend
+    environment:
+      - NODE_ENV=production
+    networks:
+      - elpatio-network
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+
+volumes:
+  mongodb_data:
+  redis_data:
+
+networks:
+  elpatio-network:
+    driver: bridge

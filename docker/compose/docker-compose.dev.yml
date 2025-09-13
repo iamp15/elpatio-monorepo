@@ -1,0 +1,94 @@
+services:
+  # Base de datos MongoDB
+  mongodb:
+    image: mongo:4.4
+    container_name: elpatio-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: elpatio
+    volumes:
+      - mongodb_data:/data/db
+      - ./services/mongodb/init:/docker-entrypoint-initdb.d
+    networks:
+      - elpatio-network
+
+  # Cache Redis
+  redis:
+    image: redis:7.2-alpine
+    container_name: elpatio-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - elpatio-network
+
+  # Bot de Telegram
+  bot-telegram:
+    build:
+      context: ../../
+      dockerfile: docker/services/bot-telegram/Dockerfile
+    container_name: elpatio-bot
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+      - redis
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ../../bot-telegram:/app
+      - /app/node_modules
+    networks:
+      - elpatio-network
+
+  # Backend API
+  backend:
+    build:
+      context: ../../
+      dockerfile: docker/services/backend/Dockerfile
+    container_name: elpatio-backend
+    restart: unless-stopped
+    ports:
+      - "3001:5000"
+    depends_on:
+      - mongodb
+      - redis
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ../../elpatio-backend:/app
+      - /app/node_modules
+    networks:
+      - elpatio-network
+
+  # Mini Apps
+  miniapps:
+    build:
+      context: ../../
+      dockerfile: docker/services/miniapps/Dockerfile
+    container_name: elpatio-miniapps
+    restart: unless-stopped
+    ports:
+      - "3002:3000"
+    depends_on:
+      - backend
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ../../elpatio-miniapps:/app
+      - /app/node_modules
+    networks:
+      - elpatio-network
+
+volumes:
+  mongodb_data:
+  redis_data:
+
+networks:
+  elpatio-network:
+    driver: bridge

@@ -1,0 +1,41 @@
+# Archivo principal de Docker Compose
+# Para desarrollo, usa: docker-compose -f docker/compose/docker-compose.dev.yml up
+# Para producción, usa: docker-compose -f docker/compose/docker-compose.prod.yml up
+
+services:
+  # Base de datos MongoDB
+  mongodb:
+    image: mongo:4.4
+    container_name: elpatio-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: elpatio
+    volumes:
+      - mongodb_data:/data/db
+      - ./docker/services/mongodb/init:/docker-entrypoint-initdb.d
+    networks:
+      - elpatio-network
+
+  # Cache Redis
+  redis:
+    image: redis:7.2-alpine
+    container_name: elpatio-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - elpatio-network
+
+volumes:
+  mongodb_data:
+  redis_data:
+
+networks:
+  elpatio-network:
+    driver: bridge

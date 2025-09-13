@@ -1,0 +1,381 @@
+### Variables de entorno
+@baseUrl = http://localhost:5000/api
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OGUwN2EzNTI5MmE3YmI5ZTQ3ZGY4YSIsImVtYWlsIjoiaWFtcDE4QGdtYWlsLmNvbSIsInJvbCI6InN1cGVyYWRtaW4iLCJpYXQiOjE3NTYxNjg3MDYsImV4cCI6MTc1Njc3MzUwNn0.IKSxOANO0v1akbcNfJQrqIZNTby7H2ymZvs4fy9lWB0
+
+### 1. Login para obtener token
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "bot@elpatio.com",
+  "password": "tu_password"
+}
+
+### 2. Actualizar precio Ludo 1v1
+# @name updatePriceLudo1v1
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "precios",
+  "configKey": "ludo.1v1",
+  "configValue": 70000
+}
+
+### 3. Actualizar precio Ludo 2v2
+# @name updatePriceLudo2v2
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "precios",
+  "configKey": "ludo.2v2",
+  "configValue": 120000
+}
+
+### 4. Actualizar precio Ludo 1v1v1
+# @name updatePriceLudo1v1v1
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "precios",
+  "configKey": "ludo.1v1v1",
+  "configValue": 150000
+}
+
+### 5. Actualizar precio Ludo 1v1v1v1
+# @name updatePriceLudo1v1v1v1
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "precios",
+  "configKey": "ludo.1v1v1v1",
+  "configValue": 200000
+}
+
+### 6. Actualizar precio Domin� 1v1
+# @name updatePriceDomino1v1
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "precios",
+  "configKey": "domino.1v1",
+  "configValue": 50000
+}
+
+### 7. Actualizar precio Domin� 2v2
+# @name updatePriceDomino2v2
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "precios",
+  "configKey": "domino.2v2",
+  "configValue": 100000
+}
+
+### 8. Actualizar precio Domin� 1v1v1
+# @name updatePriceDomino1v1v1
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "precios",
+  "configKey": "domino.1v1v1",
+  "configValue": 120000
+}
+
+### 9. Actualizar precio Domin� 1v1v1v1
+# @name updatePriceDomino1v1v1v1
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "precios",
+  "configKey": "domino.1v1v1v1",
+  "configValue": 150000
+}
+
+### 10. Actualizar l�mite de dep�sito m�nimo
+# @name updateDepositoMinimo
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "limites",
+  "configKey": "deposito.minimo",
+  "configValue": 10000
+}
+
+### 11. Actualizar l�mite de dep�sito m�ximo
+# @name updateDepositoMaximo
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "limites",
+  "configKey": "deposito.maximo",
+  "configValue": 15000000
+}
+
+### 12. Actualizar l�mite de retiro m�nimo
+# @name updateRetiroMinimo
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "limites",
+  "configKey": "retiro.minimo",
+  "configValue": 50000
+}
+
+### 13. Actualizar l�mite de retiro m�ximo
+# @name updateRetiroMaximo
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "limites",
+  "configKey": "retiro.maximo",
+  "configValue": 10000000
+}
+
+### 14. Actualizar l�mite de balance m�ximo
+# @name updateBalanceMaximo
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "limites",
+  "configKey": "balance.maximo",
+  "configValue": 50000000
+}
+
+### 15. Actualizar l�mite de retiros diarios
+# @name updateRetirosDiarios
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "limites",
+  "configKey": "retiros.diarios",
+  "configValue": 3
+}
+
+### 16. Actualizar l�mite de retiros semanales
+# @name updateRetirosSemanales
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "limites",
+  "configKey": "retiros.semanales",
+  "configValue": 7
+}
+
+### 17. Actualizar comisi�n primera vez retiro semanal
+# @name updateComisionPrimeraVez
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "comisiones",
+  "configKey": "retiro.frecuencia_semanal.primera_vez",
+  "configValue": 0
+}
+
+### 18. Actualizar comisi�n segunda vez retiro semanal
+# @name updateComisionSegundaVez
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "comisiones",
+  "configKey": "retiro.frecuencia_semanal.segunda_vez",
+  "configValue": 1
+}
+
+### 19. Actualizar comisi�n tercera vez retiro semanal
+# @name updateComisionTerceraVez
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "comisiones",
+  "configKey": "retiro.frecuencia_semanal.tercera_vez",
+  "configValue": 2
+}
+
+### 20. Actualizar comisi�n adicional retiro semanal
+# @name updateComisionAdicional
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "comisiones",
+  "configKey": "retiro.frecuencia_semanal.adicional",
+  "configValue": 5
+}
+
+### 21. Actualizar per�odo d�as retiro semanal
+# @name updatePeriodoDias
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "comisiones",
+  "configKey": "retiro.frecuencia_semanal.periodo_dias",
+  "configValue": 7
+}
+
+### 22. Actualizar comisi�n fija de retiro
+# @name updateComisionFija
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "comisiones",
+  "configKey": "retiro.comision_fija",
+  "configValue": 1000
+}
+
+### 23. Actualizar comisi�n de dep�sito
+# @name updateComisionDeposito
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "comisiones",
+  "configKey": "deposito.comision",
+  "configValue": 0
+}
+
+### 24. Actualizar c�digo de moneda
+# @name updateCodigoMoneda
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "moneda",
+  "configKey": "codigo",
+  "configValue": "VES"
+}
+
+### 25. Actualizar s�mbolo de moneda
+# @name updateSimboloMoneda
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "moneda",
+  "configKey": "simbolo",
+  "configValue": "Bs"
+}
+
+### 26. Actualizar formato de moneda
+# @name updateFormatoMoneda
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "moneda",
+  "configKey": "formato",
+  "configValue": "es-VE"
+}
+
+### 27. Actualizar decimales de moneda
+# @name updateDecimalesMoneda
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "moneda",
+  "configKey": "decimales",
+  "configValue": 2
+}
+
+### 28. Verificar configuraci�n actual
+# @name getConfig
+GET {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+
+### 29. Ver historial de auditor�a
+# @name getAudit
+GET {{baseUrl}}/api/payment-config/audit
+Authorization: Bearer {{login.response.body.token}}
+
+### 30. Error: Sin autenticaci�n
+# @name errorNoAuth
+PUT {{baseUrl}}/api/payment-config
+Content-Type: application/json
+
+{
+  "configType": "precios",
+  "configKey": "ludo.1v1",
+  "configValue": 70000
+}
+
+### 31. Error: Faltan par�metros
+# @name errorMissingParams
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "precios",
+  "configKey": "ludo.1v1"
+}
+
+### 32. Error: configType inv�lido
+# @name errorInvalidType
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "tipo_invalido",
+  "configKey": "ludo.1v1",
+  "configValue": 70000
+}
+
+### 33. Error: configKey inv�lido
+# @name errorInvalidKey
+PUT {{baseUrl}}/api/payment-config
+Authorization: Bearer {{login.response.body.token}}
+Content-Type: application/json
+
+{
+  "configType": "precios",
+  "configKey": "ludo.invalido",
+  "configValue": 70000
+}

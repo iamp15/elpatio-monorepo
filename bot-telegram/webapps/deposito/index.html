@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Depósitos - El Patio</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Pantalla de carga -->
+    <div id="loading-screen" class="screen active">
+      <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <p>Cargando...</p>
+      </div>
+    </div>
+
+    <!-- Pantalla principal -->
+    <div id="main-screen" class="screen">
+      <div class="header">
+        <h1>💳 Depósitos</h1>
+        <p>Realiza un depósito a tu cuenta</p>
+      </div>
+
+      <div class="balance-info">
+        <div class="balance-card">
+          <span class="balance-label">Saldo actual:</span>
+          <span id="current-balance" class="balance-amount">Cargando...</span>
+        </div>
+      </div>
+
+      <form id="deposit-form" class="deposit-form">
+        <div class="form-group">
+          <label for="amount">Monto a depositar (Bs):</label>
+          <input
+            type="number"
+            id="amount"
+            name="amount"
+            min="1"
+            max="1000000"
+            step="0.01"
+            required
+          />
+          <small class="form-help">Mínimo: 1 Bs, Máximo: 1,000,000 Bs</small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          💰 Solicitar Depósito
+        </button>
+      </form>
+
+      <div class="info-section">
+        <h3>ℹ️ Información importante</h3>
+        <ul>
+          <li>Los depósitos se procesan de 9:00 AM a 10:00 PM</li>
+          <li>Tiempo de procesamiento: 5-15 minutos</li>
+          <li>Se aceptan pagos móviles</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Pantalla de espera -->
+    <div id="waiting-screen" class="screen">
+      <div class="header">
+        <h1>⏳ Procesando</h1>
+        <p>Esperando asignación de cajero...</p>
+      </div>
+
+      <div class="transaction-info">
+        <div class="info-card">
+          <h3>Detalles de la transacción</h3>
+          <div class="info-row">
+            <span>Monto:</span>
+            <span id="waiting-amount">-</span>
+          </div>
+          <div class="info-row">
+            <span>Estado:</span>
+            <span id="waiting-status">Pendiente</span>
+          </div>
+          <div class="info-row">
+            <span>ID:</span>
+            <span id="waiting-id">-</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <p>Buscando cajero disponible...</p>
+      </div>
+
+      <button id="cancel-request" class="btn btn-secondary">
+        ❌ Cancelar solicitud
+      </button>
+    </div>
+
+    <!-- Pantalla de datos bancarios -->
+    <div id="bank-info-screen" class="screen">
+      <div class="header">
+        <h1>🏦 Datos Bancarios</h1>
+        <p>Realiza el pago móvil a estos datos</p>
+      </div>
+
+      <div class="bank-info">
+        <div class="bank-card">
+          <h3>Datos para pago móvil</h3>
+          <div class="bank-details">
+            <div class="bank-row">
+              <span class="bank-label">Banco:</span>
+              <span id="bank-name" class="bank-value">-</span>
+            </div>
+            <div class="bank-row">
+              <span class="bank-label">Teléfono:</span>
+              <span id="bank-phone" class="bank-value">-</span>
+            </div>
+            <div class="bank-row">
+              <span class="bank-label">Cédula:</span>
+              <span id="bank-id" class="bank-value">-</span>
+            </div>
+            <div class="bank-row">
+              <span class="bank-label">Monto:</span>
+              <span id="bank-amount" class="bank-value">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="payment-actions">
+        <button id="confirm-payment" class="btn btn-primary">
+          ✅ Ya realicé el pago
+        </button>
+        <button id="cancel-payment" class="btn btn-secondary">
+          ❌ Cancelar
+        </button>
+      </div>
+    </div>
+
+    <!-- Pantalla de confirmación de pago -->
+    <div id="payment-confirmation-screen" class="screen">
+      <div class="header">
+        <h1>📝 Confirmar Pago</h1>
+        <p>Ingresa los datos de tu pago móvil</p>
+      </div>
+
+      <form id="payment-form" class="payment-form">
+        <div class="form-group">
+          <label for="payment-bank">Banco desde el cual pagaste:</label>
+          <select id="payment-bank" name="payment-bank" required>
+            <option value="">Selecciona un banco</option>
+            <option value="banco-venezuela">Banco de Venezuela</option>
+            <option value="banesco">Banesco</option>
+            <option value="mercantil">Mercantil</option>
+            <option value="provincial">Provincial</option>
+            <option value="bicentenario">Bicentenario</option>
+            <option value="100-banco">100% Banco</option>
+            <option value="banco-caribe">Banco del Caribe</option>
+            <option value="banco-exterior">Banco Exterior</option>
+            <option value="banco-plaza">Banco Plaza</option>
+            <option value="banco-sofitasa">Sofitasa</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="payment-phone"
+            >Número de teléfono desde el cual pagaste:</label
+          >
+          <input
+            type="tel"
+            id="payment-phone"
+            name="payment-phone"
+            placeholder="0412-1234567"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="payment-date">Fecha del pago:</label>
+          <input type="date" id="payment-date" name="payment-date" required />
+        </div>
+
+        <div class="form-group">
+          <label for="payment-amount">Monto que pagaste (Bs):</label>
+          <input
+            type="number"
+            id="payment-amount"
+            name="payment-amount"
+            min="0.01"
+            step="0.01"
+            required
+          />
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            ✅ Confirmar Pago
+          </button>
+          <button
+            type="button"
+            id="back-to-bank-info"
+            class="btn btn-secondary"
+          >
+            ← Volver
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Pantalla de confirmación final -->
+    <div id="final-confirmation-screen" class="screen">
+      <div class="header">
+        <h1>✅ Pago Confirmado</h1>
+        <p>Tu pago ha sido registrado exitosamente</p>
+      </div>
+
+      <div class="success-info">
+        <div class="success-card">
+          <div class="success-icon">✅</div>
+          <h3>Pago registrado</h3>
+          <p>
+            El cajero verificará tu pago y acreditará el saldo en tu cuenta.
+          </p>
+
+          <div class="transaction-summary">
+            <div class="summary-row">
+              <span>Monto:</span>
+              <span id="final-amount">-</span>
+            </div>
+            <div class="summary-row">
+              <span>Estado:</span>
+              <span id="final-status">En verificación</span>
+            </div>
+            <div class="summary-row">
+              <span>ID:</span>
+              <span id="final-id">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="final-actions">
+        <button id="close-app" class="btn btn-primary">🏠 Cerrar</button>
+      </div>
+    </div>
+
+    <!-- Pantalla de error -->
+    <div id="error-screen" class="screen">
+      <div class="header">
+        <h1>❌ Error</h1>
+        <p>Ha ocurrido un problema</p>
+      </div>
+
+      <div class="error-info">
+        <div class="error-card">
+          <div class="error-icon">⚠️</div>
+          <h3 id="error-title">Error de conexión</h3>
+          <p id="error-message">No se pudo conectar con el servidor</p>
+        </div>
+      </div>
+
+      <div class="error-actions">
+        <button id="retry-action" class="btn btn-primary">🔄 Reintentar</button>
+        <button id="close-error" class="btn btn-secondary">🏠 Cerrar</button>
+      </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

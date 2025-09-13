@@ -1,0 +1,23 @@
+//Login bot-telegram
+POST http://192.168.0.197:5000/api/admin/login
+Content-Type: application/json
+
+{
+  "email": "bot@elpatio.games",
+  "password": "BotCl4ve#Sup3rS3gur4!2025"
+}
+
+###
+// verificar si el nickname es valido
+GET http://elpatio-backend-production.up.railway.app/api/admin/check-nickname/prueba
+
+### //Crear un jugador
+POST http://localhost:5000/api/jugadores
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OGUyYjU0NDRlYTNmNTE0YWNmN2JkOSIsImVtYWlsIjoiYm90QGVscGF0aW8uZ2FtZXMiLCJyb2wiOiJib3QiLCJpYXQiOjE3NTUzNjQ3MjgsImV4cCI6MTc1NTk2OTUyOH0.8OCl_0Fs4jOBpaKagooG1HTfspk-3TG0A22AtNB21Yw
+Content-Type: application/json
+
+{
+  "telegramId": "123456",
+  "username": "user",
+  "nickname": "gamer_pro"
+}

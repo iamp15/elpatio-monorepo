@@ -1,0 +1,39 @@
+{
+  "name": "bot-telegram",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon --config config/nodemon.json index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "echo \"No linting configured\"",
+    "build": "echo \"No build needed for Node.js\"",
+    "test:setup": "node scripts/test-profile-setup.js",
+    "test:currency": "node scripts/test-profile-currency.js",
+    "test:profile": "node scripts/test-profile-complete.js",
+    "test:limits": "node scripts/test-nickname-limits.js",
+    "test:limits-ui": "node scripts/test-profile-limits-ui.js",
+    "test:nickname": "node scripts/test-nickname-change.js",
+    "env:check": "node scripts/check-env.js",
+    "env:example": "node scripts/generate-env-example.js",
+    "env:demo": "node scripts/example-usage.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "axios": "^1.11.0",
+    "decimal.js": "^10.6.0",
+    "dotenv": "^17.2.1",
+    "form-data": "^4.0.4",
+    "moment": "^2.30.1",
+    "node-telegram-bot-api": "^0.66.0",
+    "uuid": "^11.1.0",
+    "validator": "^13.15.15"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
