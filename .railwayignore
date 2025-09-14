@@ -1,0 +1,13 @@
+# Archivos y directorios a ignorar en Railway
+node_modules
+.git
+.env
+*.log
+docker/
+bot-telegram/
+elpatio-miniapps/
+scripts/
+docs/
+temp/
+*.backup
+*.temp
