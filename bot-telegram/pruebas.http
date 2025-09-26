@@ -1,5 +1,5 @@
 //Login bot-telegram
-POST http://192.168.0.197:5000/api/admin/login
+POST https://elpatio-backend-production.up.railway.app/api/admin/login
 Content-Type: application/json
 
 {
@@ -21,3 +21,8 @@ Content-Type: application/json
   "username": "user",
   "nickname": "gamer_pro"
 }
+
+###
+// Consultar saldo de un jugador
+GET https://elpatio-backend-production.up.railway.app/api/jugadores/1604252279/saldo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OGUyYjU0NDRlYTNmNTE0YWNmN2JkOSIsImVtYWlsIjoiYm90QGVscGF0aW8uZ2FtZXMiLCJyb2wiOiJib3QiLCJpYXQiOjE3NTg3NTMzNjUsImV4cCI6MTc1OTM1ODE2NX0.3wvwq3aW1YJIfTEj1bJEUK9yJI6WiCA5Wmfx_MQzZIs
