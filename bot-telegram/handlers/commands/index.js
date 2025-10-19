@@ -6,6 +6,7 @@ const gameCommands = require("./game-commands");
 const salaCommands = require("./sala-commands");
 const adminCommands = require("./admin-commands");
 const profileCommands = require("./profile-commands");
+const notificationCommands = require("./notification-commands");
 
 // Re-exportar todas las funciones para mantener compatibilidad
 module.exports = {
@@ -24,6 +25,10 @@ module.exports = {
 
   // Comandos de perfil
   handleMiPerfil: profileCommands.handleMiPerfil,
+
+  // Comandos de notificaciones
+  handleNotificaciones: notificationCommands.handleNotificaciones,
+  handleEliminarNotificacion: notificationCommands.handleEliminarNotificacion,
 
   // Comandos de administración
   handleStats: adminCommands.handleStats,

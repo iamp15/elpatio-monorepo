@@ -850,6 +850,84 @@ class BackendAPI {
       throw error;
     }
   }
+
+  // --- Notificaciones ---
+
+  /**
+   * Crear notificación para un jugador
+   */
+  async crearNotificacionJugador(
+    jugadorId,
+    telegramId,
+    tipo,
+    titulo,
+    mensaje,
+    datos = {},
+    eventoId = null
+  ) {
+    await this.ensureAuth();
+    try {
+      const payload = {
+        destinatarioId: jugadorId,
+        destinatarioTipo: "jugador",
+        telegramId,
+        tipo,
+        titulo,
+        mensaje,
+        datos,
+        eventoId,
+      };
+
+      const res = await this.client.post("/api/notificaciones", payload);
+      return res.data;
+    } catch (error) {
+      // Si es error 200 con duplicada: true, no es realmente un error
+      if (error.response?.status === 200 && error.response?.data?.duplicada) {
+        console.log(
+          `⚠️ Notificación duplicada detectada para eventoId: ${eventoId}`
+        );
+        return null; // Retornar null para indicar que ya existía
+      }
+
+      console.log("Error creando notificación para jugador:", error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Obtener notificaciones de un jugador
+   */
+  async obtenerNotificacionesJugador(telegramId, limit = 10) {
+    await this.ensureAuth();
+    try {
+      const res = await this.client.get(
+        `/api/notificaciones/jugador/${telegramId}?limit=${limit}`
+      );
+      return res.data;
+    } catch (error) {
+      console.log(
+        "Error obteniendo notificaciones del jugador:",
+        error.message
+      );
+      throw error;
+    }
+  }
+
+  /**
+   * Eliminar una notificación
+   */
+  async eliminarNotificacion(notificacionId) {
+    await this.ensureAuth();
+    try {
+      const res = await this.client.delete(
+        `/api/notificaciones/${notificacionId}`
+      );
+      return res.data;
+    } catch (error) {
+      console.log("Error eliminando notificación:", error.message);
+      throw error;
+    }
+  }
 }
 
 module.exports = BackendAPI;

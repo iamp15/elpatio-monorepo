@@ -135,6 +135,15 @@ bot.onText(/\/cambiarjuego/, (msg) =>
 );
 bot.onText(/\/crearsala/, (msg) => commands.handleCrearSala(bot, api, msg));
 bot.onText(/\/miperfil/, (msg) => commands.handleMiPerfil(bot, api, msg));
+
+// === COMANDOS DE NOTIFICACIONES ===
+bot.onText(/\/notificaciones/, (msg) =>
+  commands.handleNotificaciones(bot, api, msg)
+);
+bot.onText(/\/eliminar_notificacion (.+)/, (msg, match) =>
+  commands.handleEliminarNotificacion(bot, api, msg, match)
+);
+
 bot.onText(/\/stats/, (msg) => commands.handleStats(bot, api, msg));
 bot.onText(/\/token/, (msg) => commands.handleToken(bot, api, msg));
 bot.onText(/\/setwelcome/, (msg) => commands.handleSetWelcome(bot, api, msg));
