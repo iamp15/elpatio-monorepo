@@ -11,11 +11,11 @@ const WEBAPP_CONFIG = {
   BASE_URLS: {
     development: {
       miniapps: "https://elpatio-miniapps.vercel.app", // Usar Vercel para HTTPS
-      backend: "https://elpatio-backend-production.up.railway.app/api", // Usar Railway también en development
+      backend: "https://elpatio-backend.fly.dev/api", // Backend en Fly.io
     },
     production: {
       miniapps: "https://elpatio-miniapps.vercel.app",
-      backend: "https://elpatio-backend-production.up.railway.app/api", // Usar Railway en production
+      backend: "https://elpatio-backend.fly.dev/api", // Backend en Fly.io
     },
   },
 

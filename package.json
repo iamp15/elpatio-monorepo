@@ -16,26 +16,13 @@
     "setup:env": "scripts\\setup-env.bat",
     "install:deps": "scripts\\install-deps.bat",
     "migrate:repos": "scripts\\migrate-repos.bat",
-    "docker:dev": "scripts\\docker-dev.bat",
-    "docker:prod": "./scripts/docker-prod.sh",
-    "stop": "docker-compose down",
-    "logs": "docker-compose logs -f",
-    "logs:bot": "docker-compose logs -f bot-telegram",
-    "logs:backend": "docker-compose logs -f backend",
-    "logs:miniapps": "docker-compose logs -f miniapps",
-    "shell:bot": "docker-compose exec bot-telegram sh",
-    "shell:backend": "docker-compose exec backend sh",
-    "shell:miniapps": "docker-compose exec miniapps sh",
-    "db:shell": "docker-compose exec mongodb mongosh",
-    "redis:shell": "docker-compose exec redis redis-cli",
-    "build": "docker-compose build",
-    "up": "docker-compose up -d",
-    "down": "docker-compose down",
-    "restart": "docker-compose restart",
-    "clean": "docker-compose down -v --remove-orphans",
     "install:all": "npm install --workspaces",
     "test": "npm run test --workspaces",
-    "lint": "npm run lint --workspaces"
+    "lint": "npm run lint --workspaces",
+    "fly:deploy:backend": "cd elpatio-backend && fly deploy",
+    "fly:deploy:bot": "cd bot-telegram && fly deploy",
+    "fly:logs:backend": "cd elpatio-backend && fly logs",
+    "fly:logs:bot": "cd bot-telegram && fly logs"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
@@ -46,6 +33,7 @@
     "npm": ">=8.0.0"
   },
   "dependencies": {
+    "flyctl": "^1.2.4",
     "node-fetch": "^3.3.2",
     "socket.io": "^4.8.1"
   }
