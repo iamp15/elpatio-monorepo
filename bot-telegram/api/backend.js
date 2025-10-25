@@ -24,6 +24,14 @@ class BackendAPI {
     return this.authService.getToken();
   }
 
+  /**
+   * Obtener el token JWT actual
+   */
+  async getToken() {
+    await this.ensureAuth();
+    return this.authService.getToken();
+  }
+
   async ensureAuth() {
     await this.authService.ensureValidToken();
   }
@@ -925,6 +933,60 @@ class BackendAPI {
       return res.data;
     } catch (error) {
       console.log("Error eliminando notificación:", error.message);
+      throw error;
+    }
+  }
+
+  // --- Notificaciones Bot (WebSocket/Polling) ---
+
+  /**
+   * Obtener notificaciones pendientes para el bot
+   */
+  async getNotificacionesPendientes(limit = 50) {
+    await this.ensureAuth();
+    try {
+      const res = await this.client.get(
+        `/api/bot/notificaciones-pendientes?limit=${limit}`
+      );
+      return res.data.notificaciones || [];
+    } catch (error) {
+      console.log("Error obteniendo notificaciones pendientes:", error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Marcar una notificación bot como enviada
+   */
+  async marcarNotificacionEnviada(notificacionId) {
+    await this.ensureAuth();
+    try {
+      const res = await this.client.post(
+        `/api/bot/notificaciones/${notificacionId}/marcar-enviada`
+      );
+      return res.data;
+    } catch (error) {
+      console.log("Error marcando notificación como enviada:", error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Marcar múltiples notificaciones bot como enviadas
+   */
+  async marcarNotificacionesEnviadas(notificacionIds) {
+    await this.ensureAuth();
+    try {
+      const res = await this.client.post(
+        `/api/bot/notificaciones/marcar-enviadas`,
+        { notificacionIds }
+      );
+      return res.data;
+    } catch (error) {
+      console.log(
+        "Error marcando notificaciones como enviadas:",
+        error.message
+      );
       throw error;
     }
   }
