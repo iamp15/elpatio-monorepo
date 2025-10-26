@@ -303,6 +303,182 @@ async function notificarJuegoIniciado(bot, api, sala, jugador) {
   }
 }
 
+/**
+ * Notificaciones específicas del proceso de depósito
+ */
+
+/**
+ * Notificar solicitud de depósito creada
+ */
+async function notificarSolicitudDepositoCreada(
+  bot,
+  api,
+  transaccion,
+  jugador
+) {
+  try {
+    const monto = (transaccion.monto / 100).toFixed(2);
+
+    await enviarNotificacionTelegram(
+      bot,
+      api,
+      jugador._id || jugador.id,
+      jugador.telegramId,
+      "solicitud_deposito_creada",
+      "Solicitud de Depósito 📝",
+      `Solicitaste hacer un depósito por ${monto} Bs.\n\n⏳ Esperando que un cajero acepte tu solicitud...`,
+      {
+        transaccionId: transaccion._id.toString(),
+        monto: transaccion.monto,
+        metodoPago: transaccion.metodoPago,
+      },
+      `solicitud-creada-${transaccion._id}`
+    );
+  } catch (error) {
+    console.error(`❌ Error notificando solicitud creada:`, error.message);
+  }
+}
+
+/**
+ * Notificar solicitud aceptada por cajero
+ */
+async function notificarSolicitudAceptada(
+  bot,
+  api,
+  transaccion,
+  jugador,
+  cajero
+) {
+  try {
+    const monto = (transaccion.monto / 100).toFixed(2);
+    const nombreCajero = cajero.nombreCompleto || cajero.nombre || "Cajero";
+
+    await enviarNotificacionTelegram(
+      bot,
+      api,
+      jugador._id || jugador.id,
+      jugador.telegramId,
+      "solicitud_aceptada",
+      "Solicitud Aceptada ✅",
+      `El cajero ${nombreCajero} aceptó tu solicitud de depósito por ${monto} Bs.\n\n📋 Procede a realizar el pago según las instrucciones.`,
+      {
+        transaccionId: transaccion._id.toString(),
+        monto: transaccion.monto,
+        cajeroId: cajero._id || cajero.id,
+        cajeroNombre: nombreCajero,
+      },
+      `solicitud-aceptada-${transaccion._id}`
+    );
+  } catch (error) {
+    console.error(`❌ Error notificando solicitud aceptada:`, error.message);
+  }
+}
+
+/**
+ * Notificar confirmación de pago enviada
+ */
+async function notificarPagoConfirmado(
+  bot,
+  api,
+  transaccion,
+  jugador,
+  referencia
+) {
+  try {
+    const monto = (transaccion.monto / 100).toFixed(2);
+
+    await enviarNotificacionTelegram(
+      bot,
+      api,
+      jugador._id || jugador.id,
+      jugador.telegramId,
+      "pago_confirmado",
+      "Pago Confirmado 💳",
+      `Los datos de tu pago con referencia ${referencia} se enviaron al cajero.\n\n⏳ Esperando verificación del pago...`,
+      {
+        transaccionId: transaccion._id.toString(),
+        monto: transaccion.monto,
+        referencia,
+      },
+      `pago-confirmado-${transaccion._id}`
+    );
+  } catch (error) {
+    console.error(`❌ Error notificando pago confirmado:`, error.message);
+  }
+}
+
+/**
+ * Notificar depósito completado
+ */
+async function notificarDepositoCompletado(
+  bot,
+  api,
+  transaccion,
+  jugador,
+  saldoNuevo
+) {
+  try {
+    const monto = (transaccion.monto / 100).toFixed(2);
+    const saldo = (saldoNuevo / 100).toFixed(2);
+
+    await enviarNotificacionTelegram(
+      bot,
+      api,
+      jugador._id || jugador.id,
+      jugador.telegramId,
+      "deposito_completado",
+      "Depósito Completado ✅",
+      `Tu depósito por ${monto} Bs se completó correctamente.\n\n💰 <b>Nuevo saldo:</b> ${saldo} Bs`,
+      {
+        transaccionId: transaccion._id.toString(),
+        monto: transaccion.monto,
+        saldoNuevo,
+      },
+      `deposito-completado-${transaccion._id}`
+    );
+  } catch (error) {
+    console.error(`❌ Error notificando depósito completado:`, error.message);
+  }
+}
+
+/**
+ * Notificar depósito rechazado (versión específica del proceso)
+ */
+async function notificarDepositoRechazadoProceso(
+  bot,
+  api,
+  transaccion,
+  jugador,
+  motivo
+) {
+  try {
+    const monto = (transaccion.monto / 100).toFixed(2);
+
+    await enviarNotificacionTelegram(
+      bot,
+      api,
+      jugador._id || jugador.id,
+      jugador.telegramId,
+      "deposito_rechazado_proceso",
+      "Depósito Rechazado ❌",
+      `Tu solicitud de depósito por ${monto} Bs fue rechazada por el cajero.\n\n📝 <b>Motivo:</b> ${
+        motivo || "No especificado"
+      }`,
+      {
+        transaccionId: transaccion._id.toString(),
+        monto: transaccion.monto,
+        motivo,
+      },
+      `deposito-rechazado-proceso-${transaccion._id}`
+    );
+  } catch (error) {
+    console.error(
+      `❌ Error notificando depósito rechazado en proceso:`,
+      error.message
+    );
+  }
+}
+
 module.exports = {
   enviarNotificacionTelegram,
   notificarDepositoAprobado,
@@ -311,4 +487,10 @@ module.exports = {
   notificarRetiroRechazado,
   notificarSalaCompleta,
   notificarJuegoIniciado,
+  // Nuevas funciones para proceso de depósito
+  notificarSolicitudDepositoCreada,
+  notificarSolicitudAceptada,
+  notificarPagoConfirmado,
+  notificarDepositoCompletado,
+  notificarDepositoRechazadoProceso,
 };

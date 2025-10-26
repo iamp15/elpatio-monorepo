@@ -9,6 +9,11 @@ const commands = require("./handlers/commands");
 const { handleCallbackQuery } = require("./handlers/callbacks");
 const { handleTextMessage } = require("./handlers/messages");
 
+// Importar módulos de WebSocket
+const BotWebSocketClient = require("./websocket/websocket-client");
+const NotificationHandler = require("./websocket/notification-handler");
+const PollingFallback = require("./websocket/polling-fallback");
+
 // Variables de entorno
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const BACKEND_URL = process.env.BACKEND_URL;
@@ -48,6 +53,11 @@ const api = new BackendAPI({
   preToken: PRE_TOKEN,
 });
 
+// Variables para WebSocket y polling de respaldo
+let wsClient = null;
+let notificationHandler = null;
+let pollingFallback = null;
+
 // Login al backend (obtiene el JWT) al iniciar
 (async () => {
   try {
@@ -61,6 +71,9 @@ const api = new BackendAPI({
         `📅 Token válido hasta: ${tokenInfo.expiresAt.toLocaleString("es-ES")}`
       );
     }
+
+    // Inicializar WebSocket y sistema de notificaciones
+    await initWebSocketSystem();
   } catch (err) {
     console.error("❌ Error autenticando el bot en backend:", err.message);
     console.error(
@@ -68,6 +81,88 @@ const api = new BackendAPI({
     );
   }
 })();
+
+/**
+ * Inicializar sistema WebSocket y polling de respaldo
+ */
+async function initWebSocketSystem() {
+  try {
+    console.log("🔌 Inicializando sistema WebSocket...");
+
+    // Crear instancia del cliente WebSocket
+    wsClient = new BotWebSocketClient(BACKEND_URL, api);
+
+    // Crear gestor de notificaciones
+    notificationHandler = new NotificationHandler(bot, api, wsClient);
+
+    // Crear sistema de polling de respaldo
+    pollingFallback = new PollingFallback(api, notificationHandler);
+
+    // Configurar listeners del cliente WebSocket
+    wsClient.on("connected", () => {
+      console.log("✅ WebSocket conectado - deteniendo polling de respaldo");
+      pollingFallback.stop();
+    });
+
+    wsClient.on("disconnected", (reason) => {
+      console.log(
+        `⚠️ WebSocket desconectado: ${reason} - iniciando polling de respaldo`
+      );
+      pollingFallback.start();
+    });
+
+    wsClient.on("notificacion", async (data) => {
+      await notificationHandler.handleNotificacion(data);
+    });
+
+    wsClient.on("error", (error) => {
+      console.error("❌ Error en WebSocket:", error.message);
+    });
+
+    wsClient.on("max-reconnect-attempts-reached", () => {
+      console.error("❌ Máximo de intentos de reconexión alcanzado");
+      console.log("⚠️ Activando solo modo polling de respaldo");
+      pollingFallback.start();
+    });
+
+    // Conectar WebSocket
+    await wsClient.connect();
+  } catch (error) {
+    console.error("❌ Error inicializando sistema WebSocket:", error.message);
+    console.log("⚠️ Activando modo polling de respaldo");
+
+    // Si falla la conexión WebSocket, activar polling de respaldo
+    if (!notificationHandler || !pollingFallback) {
+      notificationHandler = new NotificationHandler(bot, api, null);
+      pollingFallback = new PollingFallback(api, notificationHandler);
+    }
+
+    pollingFallback.start();
+  }
+}
+
+// Graceful shutdown
+process.on("SIGTERM", () => {
+  console.log("🛑 SIGTERM recibido, cerrando conexiones...");
+  if (wsClient) {
+    wsClient.disconnect();
+  }
+  if (pollingFallback) {
+    pollingFallback.stop();
+  }
+  process.exit(0);
+});
+
+process.on("SIGINT", () => {
+  console.log("🛑 SIGINT recibido, cerrando conexiones...");
+  if (wsClient) {
+    wsClient.disconnect();
+  }
+  if (pollingFallback) {
+    pollingFallback.stop();
+  }
+  process.exit(0);
+});
 
 // Monitor de estado del token (verifica cada 5 minutos)
 setInterval(async () => {

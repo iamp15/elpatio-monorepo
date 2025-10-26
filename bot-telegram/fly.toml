@@ -1,0 +1,39 @@
+# fly.toml app configuration file for elpatio-bot
+#
+# Bot de Telegram que no expone HTTP
+#
+
+app = 'elpatio-bot'
+primary_region = 'gru'
+
+[build]
+
+[env]
+  # Variables de entorno públicas (las privadas van en secrets)
+
+# Configuración de la máquina
+[[vm]]
+  size = 'shared-cpu-1x'
+  memory = '256mb'
+  cpus = 1
+
+# Configuración para mantener el bot siempre activo
+[deploy]
+  strategy = "immediate"
+
+# Desactivar auto-stop para mantener el bot corriendo 24/7
+[experimental]
+  auto_rollback = true
+
+[[services]]
+  # Dummy service para mantener la máquina activa
+  protocol = "tcp"
+  internal_port = 8080
+
+  [[services.ports]]
+    port = 80
+
+[services.concurrency]
+  type = "connections"
+  hard_limit = 25
+  soft_limit = 20
