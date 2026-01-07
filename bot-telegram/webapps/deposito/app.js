@@ -277,12 +277,6 @@ class DepositApp {
     if (dateInput) {
       dateInput.value = new Date().toISOString().split("T")[0];
     }
-
-    // Establecer monto por defecto
-    const amountInput = document.getElementById("payment-amount");
-    if (amountInput && this.currentTransaction) {
-      amountInput.value = toBolivares(this.currentTransaction.amount);
-    }
   }
 
   /**
@@ -296,7 +290,7 @@ class DepositApp {
       bank: formData.get("payment-bank"),
       phone: formData.get("payment-phone"),
       date: formData.get("payment-date"),
-      amount: parseFloat(formData.get("payment-amount")),
+      amount: toBolivares(this.currentTransaction.amount), // Usar el monto de la transacción original
     };
 
     try {
