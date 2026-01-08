@@ -1,0 +1,6 @@
+[submodule "elpatio-backend"]
+	path = elpatio-backend
+	url = https://github.com/iamp15/elpatio-backend.git
+[submodule "elpatio-miniapps"]
+	path = elpatio-miniapps
+	url = https://github.com/iamp15/elpatio-miniapps.git

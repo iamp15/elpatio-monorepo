@@ -27,6 +27,34 @@ el-patio-monorepo/
 
 ## Instalación
 
+### Clonar el proyecto completo (con submodules)
+
+Este proyecto utiliza Git Submodules para manejar los repositorios de `elpatio-backend` y `elpatio-miniapps`. Para clonar el proyecto completo en una nueva máquina:
+
+```bash
+# Clonar el repositorio principal con todos los submodules
+git clone --recurse-submodules https://github.com/iamp15/elpatio-monorepo.git
+
+# O si ya clonaste sin submodules, inicialízalos después:
+cd elpatio-monorepo
+git submodule update --init --recursive
+```
+
+### Actualizar submodules después de un pull
+
+Si trabajas desde múltiples máquinas (oficina y casa), después de hacer `git pull` en el monorepo, actualiza los submodules:
+
+```bash
+# Actualizar todos los submodules a sus últimas versiones
+git submodule update --remote
+
+# O para actualizar un submodule específico
+git submodule update --remote elpatio-backend
+git submodule update --remote elpatio-miniapps
+```
+
+### Instalar dependencias
+
 ```bash
 # Instalar dependencias de todos los workspaces
 npm run install:all
