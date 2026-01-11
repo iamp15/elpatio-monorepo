@@ -1,0 +1,122 @@
+---
+description: Reglas generales de estilo y convenciones para todo el proyecto El Patio
+alwaysApply: true
+---
+
+# Reglas Generales - El Patio
+
+## 📋 Información del Proyecto
+
+Este es un monorepo que incluye:
+- **bot-telegram**: Bot de Telegram para gestión de salas de juego
+- **elpatio-backend**: API REST para el backend del sistema
+- **elpatio-miniapps**: Mini aplicaciones web para Telegram
+- **packages**: Paquetes compartidos entre servicios
+
+## 🔧 Convenciones de Código
+
+### Idioma y Comentarios
+
+- **Todos los comentarios y documentación en español**
+- **Nombres de variables y funciones descriptivos en español o inglés según el contexto**
+- Comentarios JSDoc para funciones complejas explicando propósito, parámetros y retornos
+- Comentarios inline solo cuando sea necesario para explicar lógica compleja
+
+### Estilo de Código
+
+- Usar **CommonJS** (require/module.exports) para módulos
+- Preferir **async/await** sobre Promises.then()
+- Usar **const** por defecto, **let** solo cuando sea necesario, evitar **var**
+- Mantener funciones pequeñas con una sola responsabilidad
+- Seguir principios **SOLID** y **Clean Code**
+- Evitar código duplicado (DRY - Don't Repeat Yourself)
+
+### Manejo de Errores
+
+- Siempre incluir manejo de errores apropiado con try-catch
+- Usar console.log con emojis para logs informativos (✅, ❌, ⚠️, 🛑, 🔄, etc.)
+- Evitar console.log en producción, usar sistema de logging apropiado
+- Manejar errores no capturados en procesos (uncaughtException, unhandledRejection)
+- Implementar shutdown graceful para servicios
+
+### Estructura de Archivos
+
+- Cada módulo debe tener su propio README.md explicando su propósito
+- Configuración centralizada en carpeta `config/`
+- Utilidades comunes en carpeta `utils/`
+- Separar responsabilidades en módulos independientes
+- Preferir arquitectura modular sobre archivos monolíticos.
+- Monitorear que un módulo no crezca demasiado (más de 600 lineas) y cuando ocurra sugerir subdivisión del mismo.
+
+### Variables de Entorno
+
+- Usar **dotenv** para carga de variables de entorno
+- Validar variables de entorno requeridas al inicio
+- Proporcionar valores por defecto cuando sea apropiado
+- Documentar variables de entorno en archivos `.env.example`
+
+### Nombres y Nomenclatura
+
+- **Archivos**: camelCase para JavaScript (ej: `userState.js`, `backendAPI.js`)
+- **Carpetas**: kebab-case o camelCase según convención del módulo
+- **Funciones**: camelCase (ej: `getUserInfo`, `handleCallback`)
+- **Constantes**: UPPER_SNAKE_CASE (ej: `MAX_RETRIES`, `API_BASE_URL`)
+- **Clases**: PascalCase (ej: `AuthManager`, `BackendAPI`)
+
+## 🏗️ Arquitectura
+
+### Principios de Diseño
+
+- **Separación de responsabilidades**: Cada módulo debe tener una responsabilidad clara
+- **Modularidad**: Dividir código en módulos pequeños y reutilizables
+- **Configuración centralizada**: Un solo lugar para configuraciones
+- **Abstracción**: Usar interfaces/abstracciones para servicios compartidos
+
+### Estructura Recomendada por Módulo
+
+```
+modulo/
+├── config/          # Configuración
+├── handlers/        # Manejadores de eventos (si aplica)
+├── utils/           # Utilidades
+├── docs/            # Documentación específica
+├── index.js         # Punto de entrada principal
+└── README.md        # Documentación del módulo
+```
+
+## 🔒 Seguridad
+
+- Validar todas las entradas de usuario
+- Usar autenticación JWT para rutas protegidas
+- No exponer información sensible en logs
+- Sanitizar datos antes de guardar en base de datos
+- Usar variables de entorno para secretos y tokens
+
+## 📦 Dependencias
+
+- Node.js >= 18.0.0
+- npm >= 8.0.0
+- Preferir dependencias estables y mantenidas
+- Documentar dependencias críticas en README
+
+## 🚀 Git y Commits
+
+- Mensajes de commit en español
+- Usar commits descriptivos y atómicos
+- No committear archivos temporales, node_modules, o archivos de configuración local
+- Usar .gitignore apropiado para cada módulo
+- El repositorio principal del proyecto es elpatio-monorepo
+- Los sub-modulos son elpatio-backend, elpatio-miniapps y elpatio-bot-telegram
+- Los commits son específicos por módulo. Utilizar los scripts (ubicados en la carpeta scripts) apropiados para cada commit
+
+
+## ✅ Testing y Calidad
+
+- Escribir código pensando en la testabilidad
+- Preferir funciones puras cuando sea posible
+- Documentar funciones complejas para facilitar testing
+- Mantener código legible y mantenible
+
+## La consola
+- Cuando se ejecuten multiples comandos en la consola solo es válido utilizar como separador de comandos el punto y coma (;)
+- El separador de comandos "&&" no es válido.

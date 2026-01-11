@@ -4,3 +4,6 @@
 [submodule "elpatio-miniapps"]
 	path = elpatio-miniapps
 	url = https://github.com/iamp15/elpatio-miniapps.git
+[submodule "bot-telegram"]
+	path = bot-telegram
+	url = https://github.com/iamp15/elpatio-bot-telegram.git
