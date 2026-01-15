@@ -7,3 +7,6 @@
 [submodule "bot-telegram"]
 	path = bot-telegram
 	url = https://github.com/iamp15/elpatio-bot-telegram.git
+[submodule "elpatio-dashboard"]
+	path = elpatio-dashboard
+	url = https://github.com/iamp15/elpatio-dashboard.git
