@@ -10,3 +10,6 @@
 [submodule "elpatio-dashboard"]
 	path = elpatio-dashboard
 	url = https://github.com/iamp15/elpatio-dashboard.git
+[submodule "elpatio-appCajeros"]
+	path = elpatio-appCajeros
+	url = https://github.com/iamp15/elpatio-appCajeros.git
