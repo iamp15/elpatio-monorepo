@@ -1,6 +1,6 @@
 # Guía de Git Submodules - El Patio Monorepo
 
-Este proyecto utiliza **Git Submodules** para manejar los repositorios de `bot-telegram`, `elpatio-backend` y `elpatio-miniapps` como repositorios independientes dentro del monorepo.
+Este proyecto utiliza **Git Submodules** para manejar los repositorios de `bot-telegram`, `elpatio-backend`, `elpatio-miniapps`, `elpatio-dashboard` y `elpatio-appCajeros` como repositorios independientes dentro del monorepo.
 
 ## ¿Qué son los Submodules?
 
@@ -11,10 +11,12 @@ Los submodules permiten mantener repositorios Git separados dentro de un reposit
 
 ## Estructura de Repositorios
 
-- **elpatio-monorepo**: Repositorio principal (ignora `bot-telegram`, `elpatio-backend` y `elpatio-miniapps`)
+- **elpatio-monorepo**: Repositorio principal (ignora `bot-telegram`, `elpatio-backend`, `elpatio-miniapps`, `elpatio-dashboard` y `elpatio-appCajeros`)
 - **bot-telegram**: Repositorio del bot de Telegram (submodule)
 - **elpatio-backend**: Repositorio del backend (submodule)
 - **elpatio-miniapps**: Repositorio de las miniapps (submodule)
+- **elpatio-dashboard**: Repositorio del dashboard (submodule)
+- **elpatio-appCajeros**: Repositorio de la app de cajeros (submodule)
 
 ## Clonar el Proyecto Completo en una Nueva Máquina
 
@@ -50,6 +52,8 @@ git submodule update --remote
 git submodule update --remote bot-telegram
 git submodule update --remote elpatio-backend
 git submodule update --remote elpatio-miniapps
+git submodule update --remote elpatio-dashboard
+git submodule update --remote elpatio-appCajeros
 ```
 
 ### Trabajar dentro de un submodule
@@ -97,7 +101,7 @@ Si prefieres hacerlo manualmente:
 
 ```bash
 # 1. Push del submodule
-cd bot-telegram  # o elpatio-backend, elpatio-miniapps
+cd bot-telegram  # o elpatio-backend, elpatio-miniapps, elpatio-dashboard, elpatio-appCajeros
 git push
 
 # 2. Actualizar referencia en el monorepo

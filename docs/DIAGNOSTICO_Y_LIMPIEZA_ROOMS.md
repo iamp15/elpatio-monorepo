@@ -16,6 +16,20 @@ Los métodos de diagnóstico y limpieza se pueden usar de **3 formas diferentes*
 
 El script está en `elpatio-backend/scripts/diagnosticarRooms.js`
 
+**Requisitos:**
+- Node.js instalado
+- Dependencias instaladas: `npm install` (necesita `axios`)
+- Variable de entorno `BACKEND_URL` configurada (o usa el valor por defecto)
+
+### Configuración
+
+Agregar en `.env`:
+```env
+BACKEND_URL=https://elpatio-backend.fly.dev
+```
+
+Si no se configura, el script usa `https://elpatio-backend.fly.dev` por defecto.
+
 ### Uso
 
 ```bash
@@ -25,12 +39,14 @@ cd elpatio-backend
 # Solo diagnóstico
 node scripts/diagnosticarRooms.js diagnostico
 
-# Solo limpieza (requiere servidor activo)
+# Solo limpieza
 node scripts/diagnosticarRooms.js limpiar
 
 # Diagnóstico y limpieza (por defecto)
 node scripts/diagnosticarRooms.js ambos
 ```
+
+**Nota:** El script se conecta al servidor remoto en Fly.io mediante endpoints REST. No requiere que el servidor esté corriendo localmente.
 
 ### Ejemplo de Salida
 

@@ -120,3 +120,11 @@ modulo/
 ## La consola
 - Cuando se ejecuten multiples comandos en la consola solo es válido utilizar como separador de comandos el punto y coma (;)
 - El separador de comandos "&&" no es válido.
+
+## Estado del proyecto
+
+- Este proyecto se encuentra en etapa de desarrollo, aunque sus componentes se encuentren subidos a servers online.
+- El backend se encuentra corriendo en una VM de fly.io
+- Las miniapps se encuentran subidas a Vercel.
+- El bot de telegram esta corriendo en otra VM en fly.io
+- La razon de que los componentes esten subidos a servers online y no en local es que este proyecto funciona a traves de telegram y su navegador interno. El navegador de telegram no es capaz de comunicarse con servers locales, lo que impide las pruebas de desarrollo.

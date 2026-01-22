@@ -29,7 +29,7 @@ el-patio-monorepo/
 
 ### Clonar el proyecto completo (con submodules)
 
-Este proyecto utiliza Git Submodules para manejar los repositorios de `bot-telegram`, `elpatio-backend` y `elpatio-miniapps`. Para clonar el proyecto completo en una nueva máquina:
+Este proyecto utiliza Git Submodules para manejar los repositorios de `bot-telegram`, `elpatio-backend`, `elpatio-miniapps`, `elpatio-dashboard` y `elpatio-appCajeros`. Para clonar el proyecto completo en una nueva máquina:
 
 ```bash
 # Clonar el repositorio principal con todos los submodules
@@ -52,6 +52,8 @@ git submodule update --remote
 git submodule update --remote bot-telegram
 git submodule update --remote elpatio-backend
 git submodule update --remote elpatio-miniapps
+git submodule update --remote elpatio-dashboard
+git submodule update --remote elpatio-appCajeros
 ```
 
 ### Instalar dependencias

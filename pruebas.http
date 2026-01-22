@@ -1,0 +1,166 @@
+### REST Client - Guía de Uso
+### Para ejecutar una petición, haz clic en "Send Request" que aparece arriba de cada petición
+### O usa el atajo: Ctrl+Alt+R (Windows/Linux) o Cmd+Alt+R (Mac)
+
+### ============================================
+### PETICIONES BÁSICAS
+### ============================================
+
+### GET - Obtener datos
+GET https://elpatio-backend.fly.dev/api/ejemplo
+Accept: application/json
+
+###
+
+### GET con parámetros de consulta
+GET https://elpatio-backend.fly.dev/api/ejemplo?id=123&nombre=test
+Accept: application/json
+
+###
+
+### POST - Crear un recurso
+POST https://elpatio-backend.fly.dev/api/ejemplo
+Content-Type: application/json
+
+{
+  "nombre": "Ejemplo",
+  "descripcion": "Esto es un ejemplo"
+}
+
+###
+
+### PUT - Actualizar un recurso completo
+PUT https://elpatio-backend.fly.dev/api/ejemplo/123
+Content-Type: application/json
+
+{
+  "nombre": "Ejemplo Actualizado",
+  "descripcion": "Descripción actualizada"
+}
+
+###
+
+### PATCH - Actualizar parcialmente un recurso
+PATCH https://elpatio-backend.fly.dev/api/ejemplo/123
+Content-Type: application/json
+
+{
+  "nombre": "Solo actualizo el nombre"
+}
+
+###
+
+### DELETE - Eliminar un recurso
+DELETE https://elpatio-backend.fly.dev/api/ejemplo/123
+Accept: application/json
+
+###
+
+### ============================================
+### AUTENTICACIÓN
+### ============================================
+
+### GET con token Bearer
+GET https://elpatio-backend.fly.dev/api/protegido
+Authorization: Bearer tu_token_aqui
+Accept: application/json
+
+###
+
+### POST con autenticación básica
+POST https://elpatio-backend.fly.dev/api/login
+Authorization: Basic usuario:password
+Content-Type: application/json
+
+{
+  "email": "usuario@ejemplo.com",
+  "password": "contraseña"
+}
+
+###
+
+### ============================================
+### VARIABLES DE ENTORNO (Útiles para diferentes ambientes)
+### ============================================
+
+### Puedes definir variables al inicio del archivo o en un archivo .env
+### Ejemplo de uso:
+### @baseUrl = https://elpatio-backend.fly.dev
+### @token = tu_token_aqui
+
+### GET usando variables
+### GET {{baseUrl}}/api/ejemplo
+### Authorization: Bearer {{token}}
+
+###
+
+### ============================================
+### HEADERS PERSONALIZADOS
+### ============================================
+
+### POST con múltiples headers
+POST https://elpatio-backend.fly.dev/api/ejemplo
+Content-Type: application/json
+X-Custom-Header: valor-personalizado
+X-API-Key: mi-api-key
+Accept: application/json
+
+{
+  "datos": "ejemplo"
+}
+
+###
+
+### ============================================
+### EJEMPLOS ESPECÍFICOS PARA TU PROYECTO
+### ============================================
+
+### Ajusta estos ejemplos según tus endpoints reales del backend
+
+### GET - Obtener transacciones (ejemplo)
+GET https://elpatio-backend.fly.dev/api/transacciones
+Accept: application/json
+
+###
+
+### POST - Crear transacción (ejemplo)
+POST https://elpatio-backend.fly.dev/api/transacciones
+Content-Type: application/json
+
+{
+  "monto": 100.50,
+  "tipo": "ingreso",
+  "descripcion": "Ejemplo de transacción"
+}
+
+###
+
+### ============================================
+### ENDPOINTS DE WEBSOCKET
+### ============================================
+
+### GET - Diagnosticar rooms de transacciones WebSocket
+### Este endpoint devuelve información sobre los rooms activos de transacciones
+GET https://elpatio-backend.fly.dev/api/websocket/diagnosticar-rooms
+Accept: application/json
+
+###
+
+### POST - Limpiar rooms huérfanos de WebSocket
+### Este endpoint limpia los rooms vacíos o huérfanos
+POST https://elpatio-backend.fly.dev/api/websocket/limpiar-rooms
+Accept: application/json
+
+###
+
+### GET - Obtener estadísticas de WebSocket
+GET https://elpatio-backend.fly.dev/api/websocket/stats
+Accept: application/json
+
+###
+
+### POST - Enviar mensaje de prueba por WebSocket
+POST https://elpatio-backend.fly.dev/api/websocket/test-message
+Accept: application/json
+
+###
